@@ -10,6 +10,7 @@ import ru.smirnov.keeneyepractice.backend.mapper.StudentMapper;
 import ru.smirnov.keeneyepractice.backend.repository.StudentRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class StudentService {
@@ -34,6 +35,38 @@ public class StudentService {
     public ResponseEntity<List<Student>> getStudents() {
         List<Student> students = this.studentRepository.findAll();
         return ResponseEntity.ok(students);
+    }
+
+    public ResponseEntity<Student> getStudentById(Long id) {
+        Student student = this.studentRepository.findById(id).orElse(null);
+
+        if (student == null)
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+
+        return ResponseEntity.ok(student);
+    }
+
+    public ResponseEntity<Student> updateStudentById(Long id, IncomingStudentDto dto) {
+        Student student = this.studentRepository.findById(id).orElse(null);
+
+        if (student == null)
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+
+        this.studentMapper.updateStudent(student, dto);
+        this.studentRepository.save(student);
+
+        return ResponseEntity.status(HttpStatus.OK).body(student);
+    }
+
+    public ResponseEntity<Void> deleteStudentById(Long id) {
+        Student student = this.studentRepository.findById(id).orElse(null);
+
+        if (student == null)
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+
+        this.studentRepository.delete(student);
+
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
 }

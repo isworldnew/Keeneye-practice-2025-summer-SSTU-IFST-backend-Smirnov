@@ -19,5 +19,14 @@ public class StudentMapper {
         return student;
     }
 
+    public void updateStudent(Student entityToUpdate, IncomingStudentDto modifiedData) {
+        entityToUpdate.setLastname(modifiedData.getLastname());
+        entityToUpdate.setFirstname(modifiedData.getFirstname());
+        entityToUpdate.setParentname(modifiedData.getParentname());
+        entityToUpdate.setBirthDate(modifiedData.getBirthDate());
+        entityToUpdate.setPhoneNumber(modifiedData.getPhoneNumber());
+        entityToUpdate.setEmail(modifiedData.getEmail());
+        entityToUpdate.setGroup(modifiedData.getGroup());
+    }
 
 }

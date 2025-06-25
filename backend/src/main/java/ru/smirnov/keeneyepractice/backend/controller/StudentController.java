@@ -2,6 +2,8 @@ package ru.smirnov.keeneyepractice.backend.controller;
 
 import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,13 +30,6 @@ public class StudentController {
     }
 
 
-
-    // не забудь про @RequestBody, @PathParam, @PathVariable, @RequestParam
-
-    // чтение student по id
-    // обновление student по id
-    // удаление student по id
-
     @PostMapping("/create-student")
     public ResponseEntity<Long> createStudent(@RequestBody @Valid IncomingStudentDto dto) {
         return this.studentService.createStudent(dto);
@@ -44,6 +39,24 @@ public class StudentController {
     public ResponseEntity<List<Student>> getStudents() {
         return this.studentService.getStudents();
     }
+
+    @GetMapping("/student-by-id/{id}")
+    public ResponseEntity<Student> getStudentById(@NotNull @Positive @PathVariable("id") Long id) {
+        return this.studentService.getStudentById(id);
+    }
+
+    @PatchMapping("/update-student-by-id/{id}")
+    public ResponseEntity<Student> updateStudentById(
+            @NotNull @Positive @PathVariable("id") Long id,
+            @RequestBody @Valid IncomingStudentDto dto) {
+        return this.studentService.updateStudentById(id, dto);
+    }
+
+    @DeleteMapping("/delete-student-by-id/{id}")
+    public ResponseEntity<Void> deleteStudentById(@NotNull @Positive @PathVariable("id") Long id) {
+        return this.studentService.deleteStudentById(id);
+    }
+
 
 
     @ExceptionHandler({MethodArgumentNotValidException.class})
