@@ -1,0 +1,43 @@
+version: '3.9'
+
+services:
+
+  backend_db:
+    image: postgres:15
+    env_file:
+      - backend_db.env
+    volumes:
+      - ./backend-data:/var/lib/postgresql/data/
+    networks:
+      - backend_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER}"]
+      interval: 10s
+      retries: 5
+      timeout: 5s
+
+  backend:
+    depends_on:
+      - backend_db
+    build: ./backend
+    env_file:
+      - ./backend/backend.env
+    ports:
+      - "8080:8080"
+    networks:
+      - backend_network
+    restart:
+      on-failure
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    env_file:
+      - pgadmin.env
+    ports:
+      - "5050:80"
+    networks:
+      - backend_network
+
+networks:
+  backend_network:
+    driver: bridge
