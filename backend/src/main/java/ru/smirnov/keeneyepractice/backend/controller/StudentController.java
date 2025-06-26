@@ -1,5 +1,9 @@
 package ru.smirnov.keeneyepractice.backend.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -18,6 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Tag(name = "students_endpoints")
 @RestController
 @RequestMapping("/students-api")
 public class StudentController {
@@ -31,21 +36,41 @@ public class StudentController {
 
 
     @PostMapping("/create-student")
+    @Operation(summary = "Эндпоинт для создания записи о студенте. Перечислены только явно описанные возвращаемые HTTP-коды.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Запись о студенте успешно создана."),
+            @ApiResponse(responseCode = "400", description = "Одно или более полей сохраняемой сущности имеют недопустимое значение (в том числе: случай отсутствия необходимого поля)."),
+    })
     public ResponseEntity<Long> createStudent(@RequestBody @Valid IncomingStudentDto dto) {
         return this.studentService.createStudent(dto);
     }
 
     @GetMapping("/students")
+    @Operation(summary = "Эндпоинт для получения всех записей о студентах")
+    @ApiResponse(responseCode = "200", description = "Получен список записей о студентах. Список может быть пустым.")
     public ResponseEntity<List<Student>> getStudents() {
         return this.studentService.getStudents();
     }
 
     @GetMapping("/student-by-id/{id}")
+    @Operation(summary = "Эндпоинт для получения записи о студенте по его id. Перечислены только явно описанные возвращаемые HTTP-коды.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Запрос успешный, по данному id найдена запись о студенте."),
+            @ApiResponse(responseCode = "400", description = "Некорректное значение переменной запроса {id}."),
+            @ApiResponse(responseCode = "404", description = "Для данного id не была найдена запись о студенте.")
+    })
     public ResponseEntity<Student> getStudentById(@NotNull @Positive @PathVariable("id") Long id) {
         return this.studentService.getStudentById(id);
     }
 
     @PatchMapping("/update-student-by-id/{id}")
+    @Operation(summary = "Эндпоинт для обновления записи студента по его id. Перечислены только явно описанные возвращаемые HTTP-коды.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Запись о студенте успешно обновлена."),
+            @ApiResponse(responseCode = "400", description = "Одно или более полей сохраняемой сущности имеют недопустимое значение (в том числе: случай отсутствия необходимого поля).\nНекорректное значение переменной запроса {id}."),
+            @ApiResponse(responseCode = "404", description = "Для данного id не была найдена запись о студенте.")
+
+    })
     public ResponseEntity<Student> updateStudentById(
             @NotNull @Positive @PathVariable("id") Long id,
             @RequestBody @Valid IncomingStudentDto dto) {
@@ -53,6 +78,12 @@ public class StudentController {
     }
 
     @DeleteMapping("/delete-student-by-id/{id}")
+    @Operation(summary = "Эндпоинт для удаления записи о студенте по её id. Перечислены только явно описанные возвращаемые HTTP-коды.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Удаление успешное, тело ответа - пустое."),
+            @ApiResponse(responseCode = "400", description = "Некорректное значение переменной запроса {id}."),
+            @ApiResponse(responseCode = "404", description = "Для данного id не была найдена запись о студенте.")
+    })
     public ResponseEntity<Void> deleteStudentById(@NotNull @Positive @PathVariable("id") Long id) {
         return this.studentService.deleteStudentById(id);
     }
