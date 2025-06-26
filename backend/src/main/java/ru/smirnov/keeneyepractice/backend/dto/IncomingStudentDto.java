@@ -1,34 +1,41 @@
 package ru.smirnov.keeneyepractice.backend.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.*;
 
 import java.time.LocalDate;
 
 public class IncomingStudentDto {
 
+    @Schema(description = "Фамилия студента", example = "Иванов", minLength = 1, requiredMode = Schema.RequiredMode.REQUIRED)
     @NotNull @NotBlank @NotEmpty
     private String lastname;
 
+    @Schema(description = "Имя студента", example = "Иван", minLength = 1, requiredMode = Schema.RequiredMode.REQUIRED)
     @NotNull @NotBlank @NotEmpty
     private String firstname;
 
+    @Schema(description = "Отчество студента", example = "Иванович")
     private String parentname;
 
-    @NotNull @JsonFormat(pattern = "yyyy-MM-dd")
+    @Schema(description = "Дата рождения студента", example = "2000-01-01", type = "string", format = "date", requiredMode = Schema.RequiredMode.REQUIRED)
+    @NotNull
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate birthDate;
 
+    @Schema(description = "Номер телефона студента", example = "89991234567", minLength = 11, maxLength = 11, requiredMode = Schema.RequiredMode.REQUIRED)
     @NotNull @NotBlank @NotEmpty
     @Size(min = 11, max = 11, message = "Phone number must be exactly 11 characters")
     private String phoneNumber;
 
+    @Schema(description = "Email студента", example = "student@example.com", minLength = 1, requiredMode = Schema.RequiredMode.REQUIRED)
     @NotNull @NotBlank @NotEmpty @Email
     private String email;
 
+    @Schema(description = "Учебная группа студента", example = "Группа-101", minLength = 1, requiredMode = Schema.RequiredMode.REQUIRED)
     @NotNull @NotBlank @NotEmpty
-    // тут бы дописать полноценные валидации для нужного формата строки
     private String group;
-
 
     public String getLastname() {
         return lastname;
