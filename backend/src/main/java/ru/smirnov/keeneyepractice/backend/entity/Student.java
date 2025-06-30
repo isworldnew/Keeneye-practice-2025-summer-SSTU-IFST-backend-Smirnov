@@ -2,10 +2,15 @@ package ru.smirnov.keeneyepractice.backend.entity;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.time.LocalDate;
 
 @Entity
 @Table(name = "students")
+@Data @AllArgsConstructor @NoArgsConstructor
 public class Student {
 
     @Id
@@ -41,7 +46,7 @@ public class Student {
     @Schema(description = "Учебная группа студента", example = "Группа-101", minLength = 1, requiredMode = Schema.RequiredMode.REQUIRED)
     private String group;
 
-    public Long getId() {
+    /*public Long getId() {
         return id;
     }
 
@@ -103,7 +108,7 @@ public class Student {
 
     public void setGroup(String group) {
         this.group = group;
-    }
+    }*/
 }
 //package ru.smirnov.keeneyepractice.backend.entity;
 //

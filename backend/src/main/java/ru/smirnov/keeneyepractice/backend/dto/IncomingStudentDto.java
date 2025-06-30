@@ -3,9 +3,13 @@ package ru.smirnov.keeneyepractice.backend.dto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 
+@Data @AllArgsConstructor @NoArgsConstructor
 public class IncomingStudentDto {
 
     @Schema(description = "Фамилия студента", example = "Иванов", minLength = 1, requiredMode = Schema.RequiredMode.REQUIRED)
@@ -37,7 +41,7 @@ public class IncomingStudentDto {
     @NotNull @NotBlank @NotEmpty
     private String group;
 
-    public String getLastname() {
+    /*public String getLastname() {
         return lastname;
     }
 
@@ -63,5 +67,5 @@ public class IncomingStudentDto {
 
     public String getGroup() {
         return group;
-    }
+    }*/
 }
