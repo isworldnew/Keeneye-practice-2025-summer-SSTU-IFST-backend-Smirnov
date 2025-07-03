@@ -2,30 +2,31 @@ package ru.smirnov.keeneyepractice.backend.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Entity
 @Table(name = "passwords")
-@Data @NoArgsConstructor @AllArgsConstructor
-public class Password {
+@Getter @Setter
+@NoArgsConstructor
+public class PasswordEntity {
 
     static BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-    @Id @GeneratedValue(strategy = GenerationType.AUTO)
+    public PasswordEntity(String password) {
+        this.password = passwordEncoder.encode(password);
+    }
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String password;
-
-    public Password(String password) {
-        this.password = passwordEncoder.encode(password);
-    }
 
     @JsonIgnore
     private void setPasswordWithEncoding(String password) {
         this.password = passwordEncoder.encode(password);
     }
-
 }
