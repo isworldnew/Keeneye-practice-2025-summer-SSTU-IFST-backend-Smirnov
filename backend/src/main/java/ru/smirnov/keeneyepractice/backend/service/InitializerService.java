@@ -30,20 +30,29 @@ public class InitializerService {
                 "94721350943", "petrgv@example.com", "Группа-102"
         ));
 
-        UserEntity admin = UserEntity.builder()
-                .username("admin")
-                .passwordEntity(new PasswordEntity("admin123"))
-                .enabled(true)
-                .role(Role.ADMIN)
-                .build();
-        userRepository.save(admin);
+        try {
+            PasswordEntity adminPassword = new PasswordEntity("admin123");
+            PasswordEntity studentPassword = new PasswordEntity("student123");
 
-        UserEntity student = UserEntity.builder()
-                .username("student")
-                .passwordEntity(new PasswordEntity("student123"))
-                .enabled(true)
-                .role(Role.STUDENT)
-                .build();
-        userRepository.save(student);
+            UserEntity admin = UserEntity.builder()
+                    .username("admin")
+                    .passwordEntity(adminPassword)
+                    .enabled(true)
+                    .role(Role.ADMIN)
+                    .build();
+
+            UserEntity student = UserEntity.builder()
+                    .username("student")
+                    .passwordEntity(studentPassword)
+                    .enabled(true)
+                    .role(Role.STUDENT)
+                    .build();
+
+            userRepository.save(admin);
+            userRepository.save(student);
+
+        } catch (Exception e) {
+            System.err.println("Ошибка при инициализации тестовых пользователей: " + e.getMessage());
+        }
     }
 }
