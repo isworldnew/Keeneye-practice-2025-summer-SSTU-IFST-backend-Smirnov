@@ -39,33 +39,5 @@ public class IncomingStudentDto {
 
     @Schema(description = "Учебная группа студента", example = "Группа-101", minLength = 1, requiredMode = Schema.RequiredMode.REQUIRED)
     @NotNull @NotBlank @NotEmpty
-    private String group;
-
-    /*public String getLastname() {
-        return lastname;
-    }
-
-    public String getFirstname() {
-        return firstname;
-    }
-
-    public String getParentname() {
-        return parentname;
-    }
-
-    public LocalDate getBirthDate() {
-        return birthDate;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public String getGroup() {
-        return group;
-    }*/
+    private String groupName;
 }

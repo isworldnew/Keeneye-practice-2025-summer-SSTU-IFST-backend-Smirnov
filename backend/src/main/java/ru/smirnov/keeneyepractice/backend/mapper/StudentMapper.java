@@ -2,10 +2,18 @@ package ru.smirnov.keeneyepractice.backend.mapper;
 
 import org.springframework.stereotype.Component;
 import ru.smirnov.keeneyepractice.backend.dto.IncomingStudentDto;
+import ru.smirnov.keeneyepractice.backend.entity.Group;
 import ru.smirnov.keeneyepractice.backend.entity.Student;
+import ru.smirnov.keeneyepractice.backend.repository.GroupRepository;
 
 @Component
 public class StudentMapper {
+
+    private final GroupRepository groupRepository;
+
+    public StudentMapper(GroupRepository groupRepository) {
+        this.groupRepository = groupRepository;
+    }
 
     public Student incomingStudentDtoToStudentEntity(IncomingStudentDto dto) {
         Student student = new Student();
@@ -15,7 +23,11 @@ public class StudentMapper {
         student.setBirthDate(dto.getBirthDate());
         student.setPhoneNumber(dto.getPhoneNumber());
         student.setEmail(dto.getEmail());
-        student.setGroup(dto.getGroup());
+
+        Group group = groupRepository.findByName(dto.getGroupName())
+                .orElseThrow(() -> new IllegalArgumentException("Group not found"));
+        student.setGroup(group);
+
         return student;
     }
 
@@ -26,7 +38,9 @@ public class StudentMapper {
         entityToUpdate.setBirthDate(modifiedData.getBirthDate());
         entityToUpdate.setPhoneNumber(modifiedData.getPhoneNumber());
         entityToUpdate.setEmail(modifiedData.getEmail());
-        entityToUpdate.setGroup(modifiedData.getGroup());
-    }
 
+        Group group = groupRepository.findByName(modifiedData.getGroupName())
+                .orElseThrow(() -> new IllegalArgumentException("Group not found"));
+        entityToUpdate.setGroup(group);
+    }
 }

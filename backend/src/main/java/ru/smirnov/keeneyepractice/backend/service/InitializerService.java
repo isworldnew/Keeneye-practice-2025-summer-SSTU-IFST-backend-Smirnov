@@ -1,4 +1,4 @@
-package ru.smirnov.keeneyepractice.backend.service;
+/*package ru.smirnov.keeneyepractice.backend.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -55,4 +55,4 @@ public class InitializerService {
             System.err.println("Ошибка при инициализации тестовых пользователей: " + e.getMessage());
         }
     }
-}
+}*/
