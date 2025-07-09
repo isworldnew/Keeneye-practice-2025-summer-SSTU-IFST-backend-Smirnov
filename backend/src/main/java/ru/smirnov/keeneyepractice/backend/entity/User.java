@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import ru.smirnov.keeneyepractice.backend.entity.auxiliary.Role;
 
 @Entity
 @Table(name = "users")

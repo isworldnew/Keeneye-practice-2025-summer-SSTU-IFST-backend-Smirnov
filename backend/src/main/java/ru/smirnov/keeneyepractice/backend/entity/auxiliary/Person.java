@@ -1,8 +1,9 @@
-package ru.smirnov.keeneyepractice.backend.entity;
+package ru.smirnov.keeneyepractice.backend.entity.auxiliary;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Data;
+import ru.smirnov.keeneyepractice.backend.entity.User;
 
 import java.time.LocalDate;
 

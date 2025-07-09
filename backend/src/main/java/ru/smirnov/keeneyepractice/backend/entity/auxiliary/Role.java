@@ -1,4 +1,4 @@
-package ru.smirnov.keeneyepractice.backend.entity;
+package ru.smirnov.keeneyepractice.backend.entity.auxiliary;
 
 import lombok.Getter;
 
