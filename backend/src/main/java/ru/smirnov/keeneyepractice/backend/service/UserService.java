@@ -60,7 +60,7 @@ public class UserService implements UserDetailsService {
                 .enabled(user.isEnabled())
                 .authorities(authorities)
                 .userId(user.getId())
-                .role(user.getRole().toString())
+                .role("ROLE_" + user.getRole().toString()) // для @PreAuthorize("hasAnyRole('ADMIN', 'TEACHER')")
                 .entityId(entityId)
                 .build();
 
