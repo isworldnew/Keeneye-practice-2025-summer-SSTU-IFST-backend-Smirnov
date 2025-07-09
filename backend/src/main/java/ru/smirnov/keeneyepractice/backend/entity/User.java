@@ -13,7 +13,6 @@ public class User {
 
     static BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -28,7 +27,7 @@ public class User {
     private Role role;
 
     @Column
-    private Boolean enabled;
+    private boolean enabled;
 
     @OneToOne(mappedBy = "user")
     @JsonManagedReference

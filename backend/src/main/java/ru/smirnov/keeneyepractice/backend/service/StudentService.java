@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 import ru.smirnov.keeneyepractice.backend.mapper.StudentMapper;
 import ru.smirnov.keeneyepractice.backend.repository.StudentRepository;
 
+import java.util.Optional;
+
 @Service
 public class StudentService {
 
@@ -16,5 +18,9 @@ public class StudentService {
     public StudentService(StudentRepository studentRepository, StudentMapper studentMapper) {
         this.studentRepository = studentRepository;
         this.studentMapper = studentMapper;
+    }
+
+    public Optional<Long> findStudentIdByUserId(Long userId) {
+        return this.studentRepository.findStudentIdByUserId(userId);
     }
 }

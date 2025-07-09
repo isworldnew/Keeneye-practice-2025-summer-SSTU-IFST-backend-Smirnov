@@ -1,0 +1,89 @@
+backend-1     | 2025-07-09T15:16:24.016Z  WARN 1 --- [backend] [           main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be perf
+ormed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+backend-1     | 2025-07-09T15:16:24.815Z  WARN 1 --- [backend] [           main] .s.s.UserDetailsServiceAutoConfiguration :
+backend-1     |
+backend-1     | Using generated security password: 4cd58217-742a-47b2-b3b6-8b0aefd8c7e7
+backend-1     |
+backend-1     | This generated password is for development use only. Your security configuration must be updated before running your application in production.
+backend-1     |
+backend-1     | 2025-07-09T15:16:24.833Z  INFO 1 --- [backend] [           main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name inMemor
+yUserDetailsManager
+backend-1     | 2025-07-09T15:16:25.097Z  INFO 1 --- [backend] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+backend-1     | 2025-07-09T15:16:25.115Z  INFO 1 --- [backend] [           main] r.s.k.backend.BackendApplication         : Started BackendApplication in 8.141 seconds (process running for 8.989)
+backend-1     | PASSWORD: $2a$10$VXUIuP72In1S7whRY6tfi.z0EH3HNF3Yx9O7iMbnQShnJkIYdnODy
+
+
+
+Users:
+INSERT INTO users (id, username, password, role, enabled) VALUES
+(1, 'student01', '$2a$10$VXUIuP72In1S7whRY6tfi.z0EH3HNF3Yx9O7iMbnQShnJkIYdnODy', 'STUDENT', true),
+(2, 'student02', '$2a$10$VXUIuP72In1S7whRY6tfi.z0EH3HNF3Yx9O7iMbnQShnJkIYdnODy', 'STUDENT', true),
+(3, 'student03', '$2a$10$VXUIuP72In1S7whRY6tfi.z0EH3HNF3Yx9O7iMbnQShnJkIYdnODy', 'STUDENT', true),
+(4, 'student04', '$2a$10$VXUIuP72In1S7whRY6tfi.z0EH3HNF3Yx9O7iMbnQShnJkIYdnODy', 'STUDENT', true),
+(5, 'student05', '$2a$10$VXUIuP72In1S7whRY6tfi.z0EH3HNF3Yx9O7iMbnQShnJkIYdnODy', 'STUDENT', true),
+(6, 'student06', '$2a$10$VXUIuP72In1S7whRY6tfi.z0EH3HNF3Yx9O7iMbnQShnJkIYdnODy', 'STUDENT', true),
+(7, 'student07', '$2a$10$VXUIuP72In1S7whRY6tfi.z0EH3HNF3Yx9O7iMbnQShnJkIYdnODy', 'STUDENT', true),
+(8, 'student08', '$2a$10$VXUIuP72In1S7whRY6tfi.z0EH3HNF3Yx9O7iMbnQShnJkIYdnODy', 'STUDENT', true),
+(9, 'student09', '$2a$10$VXUIuP72In1S7whRY6tfi.z0EH3HNF3Yx9O7iMbnQShnJkIYdnODy', 'STUDENT', true),
+(10, 'student10', '$2a$10$VXUIuP72In1S7whRY6tfi.z0EH3HNF3Yx9O7iMbnQShnJkIYdnODy', 'STUDENT', true),
+(11, 'student11', '$2a$10$VXUIuP72In1S7whRY6tfi.z0EH3HNF3Yx9O7iMbnQShnJkIYdnODy', 'STUDENT', true),
+(12, 'student12', '$2a$10$VXUIuP72In1S7whRY6tfi.z0EH3HNF3Yx9O7iMbnQShnJkIYdnODy', 'STUDENT', true),
+
+(13, 'teacher01', '$2a$10$VXUIuP72In1S7whRY6tfi.z0EH3HNF3Yx9O7iMbnQShnJkIYdnODy', 'TEACHER', true),
+(14, 'teacher02', '$2a$10$VXUIuP72In1S7whRY6tfi.z0EH3HNF3Yx9O7iMbnQShnJkIYdnODy', 'TEACHER', true),
+(15, 'teacher03', '$2a$10$VXUIuP72In1S7whRY6tfi.z0EH3HNF3Yx9O7iMbnQShnJkIYdnODy', 'TEACHER', true),
+
+(16, 'admin01', '$2a$10$VXUIuP72In1S7whRY6tfi.z0EH3HNF3Yx9O7iMbnQShnJkIYdnODy', 'ADMIN', true);
+
+
+
+Students:
+INSERT INTO students (id, lastname, firstname, parentname, birth_date, phone_number, email, user_id) VALUES
+(1, 'Иванов', 'Иван', 'Иванович', '2000-05-15', '89123456789', 'ivanov.ivan@mail.com', 1),
+(2, 'Петров', 'Пётр', NULL, '1999-08-22', '89234567890', 'petrov.petr@gmail.com', 2),
+(3, 'Сидорова', 'Анна', 'Сергеевна', '2001-03-10', '89345678901', 'sidorova.anna@yandex.ru', 3),
+(4, 'Кузнецов', 'Алексей', 'Николаевич', '1998-11-05', '89456789012', 'kuznetsov.alexei@mail.com', 4),
+(5, 'Михайлова', 'Елена', NULL, '2002-07-18', '89567890123', 'mikhailova.elena@gmail.com', 5),
+(6, 'Федоров', 'Дмитрий', 'Александрович', '1997-02-28', '89678901234', 'fedorov.dmitriy@yandex.ru', 6),
+(7, 'Смирнова', 'Ольга', 'Викторовна', '2000-09-12', '89789012345', 'smirnova.olga@mail.com', 7),
+(8, 'Козлов', 'Максим', NULL, '1999-04-30', '89890123456', 'kozlov.maxim@gmail.com', 8),
+(9, 'Васильева', 'Мария', 'Игоревна', '2001-12-25', '89901234567', 'vasileva.maria@yandex.ru', 9),
+(10, 'Попов', 'Андрей', 'Петрович', '1998-06-14', '89012345678', 'popov.andrey@mail.com', 10),
+(11, 'Новикова', 'Татьяна', NULL, '2002-01-19', '89123456789', 'novikova.tatyana@gmail.com', 11),
+(12, 'Морозов', 'Сергей', 'Владимирович', '1997-03-08', '89234567890', 'morozov.sergey@yandex.ru', 12);
+
+
+
+Teachers:
+INSERT INTO teachers (id, lastname, firstname, parentname, birth_date, phone_number, email, user_id) VALUES
+(1, 'Соколов', 'Александр', 'Васильевич', '1980-07-12', '89124567890', 'sokolov.alexandr@edu.com', 13),
+(2, 'Кузнецова', 'Екатерина', 'Михайловна', '1975-03-25', '89235678901', 'kuznetsova.ekaterina@edu.com', 14),
+(3, 'Николаев', 'Игорь', 'Валерьевич', '1982-11-03', '89346789012', 'nikolaev.igor@edu.com', 15);
+
+
+
+Groups:
+INSERT INTO groups (id, name, teacher_id) VALUES
+(1, 'с-ИБС-12', 1),
+(2, 'б1-ИФСТ-32', 2),
+(3, 'м-ПИНЖ-11', 3),
+(4, 'б2-зИФСТ-51', 1);
+
+
+Students by Groups:
+INSERT INTO students_by_groups (id, student_id, group_id) VALUES
+(1, 1, 1), -- Группа "с-ИБС-12"
+(2, 2, 1),
+(3, 3, 1),
+
+(4, 4, 2), -- Группа "б1-ИФСТ-32"
+(5, 5, 2),
+(6, 6, 2),
+
+(7, 7, 3), -- Группа "м-ПИНЖ-11"
+(8, 8, 3),
+(9, 9, 3),
+
+(10, 10, 4), -- Группа "б2-зИФСТ-51"
+(11, 11, 4),
+(12, 12, 4);
