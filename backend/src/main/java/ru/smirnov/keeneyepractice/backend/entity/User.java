@@ -16,8 +16,10 @@ public class User {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(columnDefinition = "TEXT", nullable = false)
     private String username;
 
+    @Column(columnDefinition = "TEXT", nullable = false)
     private String password;
 
     @Enumerated(EnumType.STRING)
