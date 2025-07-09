@@ -54,7 +54,7 @@ public class UserService implements UserDetailsService {
 
         if (studentId != null) entityId = studentId;
 
-        return DataForToken.builder()
+        DataForToken dataForToken = DataForToken.builder()
                 .username(user.getUsername())
                 .password(user.getPassword())
                 .enabled(user.isEnabled())
@@ -63,6 +63,10 @@ public class UserService implements UserDetailsService {
                 .role(user.getRole().toString())
                 .entityId(entityId)
                 .build();
+
+        System.out.println("DATA: " + dataForToken.toString());
+
+        return dataForToken;
     }
 
 }
