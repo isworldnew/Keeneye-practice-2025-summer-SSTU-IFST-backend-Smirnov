@@ -37,7 +37,7 @@ public class GroupController {
     }
 
     @GetMapping("/groups")
-    @PreAuthorize("hasAnyRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<List<OutcomingGroupDto>> getGroups() {
         return this.groupService.getGroups();
     }
