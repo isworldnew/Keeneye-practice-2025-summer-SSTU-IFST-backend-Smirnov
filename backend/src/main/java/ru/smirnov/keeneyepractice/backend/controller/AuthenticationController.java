@@ -13,8 +13,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
-import ru.smirnov.keeneyepractice.backend.dto.authorization.JwtRequestDto;
-import ru.smirnov.keeneyepractice.backend.dto.authorization.JwtResponseDto;
+import ru.smirnov.keeneyepractice.backend.dto.authentication.JwtRequestDto;
+import ru.smirnov.keeneyepractice.backend.dto.authentication.JwtResponseDto;
 import ru.smirnov.keeneyepractice.backend.service.UserService;
 import ru.smirnov.keeneyepractice.backend.service.authentication.TokenManager;
 

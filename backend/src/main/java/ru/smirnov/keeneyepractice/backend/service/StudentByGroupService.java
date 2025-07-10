@@ -1,52 +1,47 @@
 package ru.smirnov.keeneyepractice.backend.service;
 
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
-import ru.smirnov.keeneyepractice.backend.dto.basic.IncomingGroupDto;
-import ru.smirnov.keeneyepractice.backend.dto.basic.OutcomingGroupDto;
-import ru.smirnov.keeneyepractice.backend.mapper.GroupMapper;
-import ru.smirnov.keeneyepractice.backend.repository.GroupRepository;
+import ru.smirnov.keeneyepractice.backend.dto.basic.IncomingStudentByGroupDto;
+import ru.smirnov.keeneyepractice.backend.dto.basic.OutcomingStudentByGroupDto;
+import ru.smirnov.keeneyepractice.backend.mapper.StudentByGroupMapper;
+import ru.smirnov.keeneyepractice.backend.repository.StudentByGroupRepository;
 
 import java.util.List;
 
 @Service
-public class GroupService {
+public class StudentByGroupService {
 
-    private final GroupRepository groupRepository;
-
-    private final GroupMapper groupMapper;
+    private final StudentByGroupRepository studentByGroupRepository;
+    private final StudentByGroupMapper studentByGroupMapper;
 
     @Autowired
-    public GroupService(GroupRepository groupRepository, GroupMapper groupMapper) {
-        this.groupRepository = groupRepository;
-        this.groupMapper = groupMapper;
+    public StudentByGroupService(StudentByGroupRepository studentByGroupRepository, StudentByGroupMapper studentByGroupMapper) {
+        this.studentByGroupRepository = studentByGroupRepository;
+        this.studentByGroupMapper = studentByGroupMapper;
     }
 
-    public ResponseEntity<Long> createGroup(IncomingGroupDto dto) {
+    public ResponseEntity<Long> createStudentByGroup(IncomingStudentByGroupDto dto) {
         /* в силу того, что это просто boilerplate-код, пока не реализовал:
         данный метод в принципе не предполагает разграничение доступа по ролям*/
         return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).build();
     }
 
-    public ResponseEntity<List<OutcomingGroupDto>> getGroups() {
+    public ResponseEntity<List<OutcomingStudentByGroupDto>> findStudentsByGroups() {
         /* в силу того, что это просто boilerplate-код, пока не реализовал:
         данный метод в принципе не предполагает разграничение доступа по ролям*/
         return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).build();
     }
 
-    public ResponseEntity<OutcomingGroupDto> getGroupById(Long id) {
+    public ResponseEntity<OutcomingStudentByGroupDto> getStudentByGroupById(Long id) {
         /* в силу того, что это просто boilerplate-код, пока не реализовал:
         данный метод в принципе не предполагает разграничение доступа по ролям*/
         return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).build();
     }
 
-    public ResponseEntity<OutcomingGroupDto> updateGroupById(Long id, IncomingGroupDto dto) {
+    public ResponseEntity<OutcomingStudentByGroupDto> updateStudentByGroupById(Long id, IncomingStudentByGroupDto dto) {
         /* в силу того, что это просто boilerplate-код, пока не реализовал:
         данный метод в принципе не предполагает разграничение доступа по ролям*/
         return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).build();

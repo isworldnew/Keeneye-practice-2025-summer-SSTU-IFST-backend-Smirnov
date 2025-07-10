@@ -11,52 +11,53 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
-import ru.smirnov.keeneyepractice.backend.dto.basic.IncomingPersonDto;
-import ru.smirnov.keeneyepractice.backend.dto.basic.OutcomingPersonDto;
-import ru.smirnov.keeneyepractice.backend.projection.PersonProjection;
-import ru.smirnov.keeneyepractice.backend.service.TeacherService;
+import ru.smirnov.keeneyepractice.backend.dto.basic.IncomingStudentByGroupDto;
+import ru.smirnov.keeneyepractice.backend.dto.basic.OutcomingGroupDto;
+import ru.smirnov.keeneyepractice.backend.dto.basic.OutcomingStudentByGroupDto;
+import ru.smirnov.keeneyepractice.backend.service.StudentByGroupService;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/teacher-api")
-public class TeacherController {
+@RequestMapping("/student-by-group-api")
+public class StudentByGroupController {
 
-    private final TeacherService teacherService;
+    private final StudentByGroupService studentByGroupService;
 
     @Autowired
-    public TeacherController(TeacherService teacherService) {
-        this.teacherService = teacherService;
+    public StudentByGroupController(StudentByGroupService studentByGroupService) {
+        this.studentByGroupService = studentByGroupService;
     }
 
-    @GetMapping("/teacher-by-id/{id}")
-    @PreAuthorize("hasAnyRole('ADMIN', 'TEACHER')")
-    public ResponseEntity<PersonProjection> findTeacherById(@NotNull @Positive @PathVariable Long id) {
-        return this.teacherService.findTeacherById(id);
-    }
-
-    @PostMapping("/create-teacher")
+    @PostMapping("/create-student-by-group")
     @PreAuthorize("hasAnyRole('ADMIN')")
-    public ResponseEntity<Long> createTeacher(@Valid @RequestBody IncomingPersonDto dto) {
-        return this.teacherService.createTeacher(dto);
+    public ResponseEntity<Long> createStudentByGroup(@Valid @RequestBody IncomingStudentByGroupDto dto) {
+        return this.studentByGroupService.createStudentByGroup(dto);
     }
 
-    @GetMapping("/teachers")
+    @PostMapping("/find-students-by-groups")
     @PreAuthorize("hasAnyRole('ADMIN')")
-    public ResponseEntity<List<OutcomingPersonDto>> findTeachers() {
-        return this.teacherService.findTeachers();
+    public ResponseEntity<List<OutcomingStudentByGroupDto>> findStudentsByGroups() {
+        return this.studentByGroupService.findStudentsByGroups();
     }
 
-    @PatchMapping("/update-teacher-by-id/{id}")
+    @GetMapping("/student-by-group-by-id/{id}")
     @PreAuthorize("hasAnyRole('ADMIN')")
-    public ResponseEntity<OutcomingPersonDto> updateTeacherById(
+    public ResponseEntity<OutcomingStudentByGroupDto> getStudentByGroupById(@NotNull @Positive @PathVariable Long id) {
+        return this.studentByGroupService.getStudentByGroupById(id);
+    }
+
+    @PatchMapping("/update-student-by-group-by-id/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN')")
+    public ResponseEntity<OutcomingStudentByGroupDto> updateStudentByGroupById(
             @NotNull @Positive @PathVariable Long id,
-            @Valid @RequestBody IncomingPersonDto dto
+            @Valid @RequestBody IncomingStudentByGroupDto dto
     ) {
-        return this.teacherService.updateTeacherById(id, dto);
+        return this.studentByGroupService.updateStudentByGroupById(id, dto);
     }
+
 
     @ExceptionHandler({MethodArgumentNotValidException.class})
     public ResponseEntity<?> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {

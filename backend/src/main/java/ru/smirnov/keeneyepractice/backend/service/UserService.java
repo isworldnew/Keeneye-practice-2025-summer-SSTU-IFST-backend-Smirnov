@@ -6,7 +6,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import ru.smirnov.keeneyepractice.backend.dto.authorization.DataForToken;
+import ru.smirnov.keeneyepractice.backend.dto.authentication.DataForToken;
 import ru.smirnov.keeneyepractice.backend.entity.User;
 import ru.smirnov.keeneyepractice.backend.mapper.UserMapper;
 import ru.smirnov.keeneyepractice.backend.repository.UserRepository;

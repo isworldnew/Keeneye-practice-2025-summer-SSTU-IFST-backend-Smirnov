@@ -6,11 +6,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import ru.smirnov.keeneyepractice.backend.dto.authorization.DataForToken;
+import ru.smirnov.keeneyepractice.backend.dto.authentication.DataForToken;
+import ru.smirnov.keeneyepractice.backend.dto.basic.IncomingPersonDto;
+import ru.smirnov.keeneyepractice.backend.dto.basic.OutcomingPersonDto;
 import ru.smirnov.keeneyepractice.backend.mapper.TeacherMapper;
 import ru.smirnov.keeneyepractice.backend.projection.PersonProjection;
 import ru.smirnov.keeneyepractice.backend.repository.TeacherRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -50,6 +53,24 @@ public class TeacherService {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 
         return ResponseEntity.status(HttpStatus.OK).body(teacher);
+    }
+
+    public ResponseEntity<Long> createTeacher(IncomingPersonDto dto) {
+        /* в силу того, что это просто boilerplate-код, пока не реализовал:
+        данный метод в принципе не предполагает разграничение доступа по ролям*/
+        return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).build();
+    }
+
+    public ResponseEntity<List<OutcomingPersonDto>> findTeachers() {
+        /* в силу того, что это просто boilerplate-код, пока не реализовал:
+        данный метод в принципе не предполагает разграничение доступа по ролям*/
+        return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).build();
+    }
+
+    public ResponseEntity<OutcomingPersonDto> updateTeacherById(Long id, IncomingPersonDto dto) {
+        /* в силу того, что это просто boilerplate-код, пока не реализовал:
+        данный метод в принципе не предполагает разграничение доступа по ролям*/
+        return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).build();
     }
 
 }

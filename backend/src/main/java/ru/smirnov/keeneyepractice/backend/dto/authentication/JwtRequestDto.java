@@ -1,4 +1,4 @@
-package ru.smirnov.keeneyepractice.backend.dto.authorization;
+package ru.smirnov.keeneyepractice.backend.dto.authentication;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;

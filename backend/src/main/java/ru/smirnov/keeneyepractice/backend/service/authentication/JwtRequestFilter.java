@@ -42,12 +42,10 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             try {
                 username = tokenManager.extractUsername(jwtToken);
             } catch (Exception e) {
-                // Логируем ошибку, например, токен невалиден или истёк
                 logger.error("Cannot extract username from JWT token: {}");
             }
         }
 
-        // Если пользователь ещё не аутентифицирован в контексте безопасности
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = userService.loadUserByUsername(username);
 

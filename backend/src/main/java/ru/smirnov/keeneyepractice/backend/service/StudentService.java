@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import ru.smirnov.keeneyepractice.backend.dto.authorization.DataForToken;
+import ru.smirnov.keeneyepractice.backend.dto.authentication.DataForToken;
 import ru.smirnov.keeneyepractice.backend.dto.basic.IncomingPersonDto;
 import ru.smirnov.keeneyepractice.backend.dto.basic.OutcomingPersonDto;
 import ru.smirnov.keeneyepractice.backend.entity.Student;
@@ -163,6 +163,12 @@ public class StudentService {
 
         return ResponseEntity.ok(this.studentMapper.studentEntityToOutcomingPersonDto(student));
 
+    }
+
+    public ResponseEntity<Long> createStudent(IncomingPersonDto dto) {
+        /* в силу того, что это просто boilerplate-код, пока не реализовал:
+        данный метод в принципе не предполагает разграничение доступа по ролям*/
+        return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).build();
     }
 
 }
