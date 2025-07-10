@@ -16,18 +16,22 @@ services:
       retries: 5
       timeout: 5s
 
-  backend:
-    depends_on:
-      - backend_db
-    build: ./backend
-    env_file:
-      - ./backend/backend.env
+  # этого не было:
     ports:
-      - "8080:8080"
-    networks:
-      - backend_network
-    restart:
-      on-failure
+      - "5432:5432"
+
+  # backend:
+  #   depends_on:
+  #     - backend_db
+  #   build: ./backend
+  #   env_file:
+  #     - ./backend/backend.env
+  #   ports:
+  #     - "8080:8080"
+  #   networks:
+  #     - backend_network
+  #   restart:
+  #     on-failure
 
   pgadmin:
     image: dpage/pgadmin4:latest
