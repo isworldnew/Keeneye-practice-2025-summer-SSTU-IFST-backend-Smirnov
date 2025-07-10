@@ -7,6 +7,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import ru.smirnov.keeneyepractice.backend.dto.authorization.DataForToken;
+import ru.smirnov.keeneyepractice.backend.dto.basic.IncomingPersonDto;
+import ru.smirnov.keeneyepractice.backend.dto.basic.OutcomingPersonDto;
+import ru.smirnov.keeneyepractice.backend.entity.Student;
 import ru.smirnov.keeneyepractice.backend.mapper.StudentMapper;
 import ru.smirnov.keeneyepractice.backend.projection.PersonProjection;
 import ru.smirnov.keeneyepractice.backend.projection.StudentByGroupProjection;
@@ -124,6 +127,42 @@ public class StudentService {
         if (student == null) return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 
         return ResponseEntity.status(HttpStatus.OK).body(student);
+    }
+
+    public ResponseEntity<OutcomingPersonDto> updateStudentById(Long studentId, IncomingPersonDto dto) {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        DataForToken tokenData = null;
+
+        if (authentication != null && authentication.getPrincipal() instanceof DataForToken)
+            tokenData = (DataForToken) authentication.getPrincipal();
+
+        // "изменять информацию только о себе"
+        if (tokenData.getRole().equals("ROLE_STUDENT") && !tokenData.getEntityId().equals(studentId))
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+
+
+        // "редактировать каждого (любого) студента, относящегося к его группе"
+        if (tokenData.getRole().equals("ROLE_TEACHER")) {
+            StudentInTeachersGroupProjection projection = this.groupRepository.relationBetweenTeacherAndStudentInGroup(
+                    tokenData.getEntityId(), studentId
+            ).orElse(null);
+
+            if (projection == null)
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+
+        Student student = studentRepository.findById(studentId).orElse(null);
+
+        if (student == null)
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+
+        this.studentMapper.updateStudentEntityWithIncomingPersonDto(dto, student);
+        this.studentRepository.save(student);
+
+        return ResponseEntity.ok(this.studentMapper.studentEntityToOutcomingPersonDto(student));
+
     }
 
 }

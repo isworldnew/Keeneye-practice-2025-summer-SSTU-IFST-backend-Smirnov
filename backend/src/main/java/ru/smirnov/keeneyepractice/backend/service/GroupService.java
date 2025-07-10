@@ -17,4 +17,8 @@ public class GroupService {
         this.groupRepository = groupRepository;
         this.groupMapper = groupMapper;
     }
+
+
+
+    /* обычный boilerplate-код, даже без логики разделения по ролям */
 }

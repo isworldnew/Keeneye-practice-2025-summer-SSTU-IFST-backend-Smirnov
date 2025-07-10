@@ -1,4 +1,4 @@
-package ru.smirnov.keeneyepractice.backend.dto.authorization;
+package ru.smirnov.keeneyepractice.backend.dto.basic;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.*;

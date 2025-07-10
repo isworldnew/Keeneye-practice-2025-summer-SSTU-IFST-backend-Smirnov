@@ -1,6 +1,7 @@
 package ru.smirnov.keeneyepractice.backend.controller;
 
 import jakarta.validation.ConstraintViolationException;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
+import ru.smirnov.keeneyepractice.backend.dto.basic.IncomingPersonDto;
+import ru.smirnov.keeneyepractice.backend.dto.basic.OutcomingPersonDto;
 import ru.smirnov.keeneyepractice.backend.projection.PersonProjection;
 import ru.smirnov.keeneyepractice.backend.service.StudentService;
 
@@ -38,6 +41,15 @@ public class StudentController {
     @PreAuthorize("hasAnyRole('ADMIN', 'STUDENT', 'TEACHER')")
     public ResponseEntity<List<PersonProjection>> findAllStudents() {
         return this.studentService.findAllStudents();
+    }
+
+    @PatchMapping("/update-student-by-id/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'STUDENT', 'TEACHER')")
+    public ResponseEntity<OutcomingPersonDto> updateStudentById(
+            @NotNull @Positive @PathVariable Long id,
+            @Valid @RequestBody IncomingPersonDto dto
+    ) {
+        return this.studentService.updateStudentById(id, dto);
     }
 
     @ExceptionHandler({MethodArgumentNotValidException.class})

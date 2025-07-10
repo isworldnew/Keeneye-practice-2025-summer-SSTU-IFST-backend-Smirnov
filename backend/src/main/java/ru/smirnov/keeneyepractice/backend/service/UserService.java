@@ -64,7 +64,7 @@ public class UserService implements UserDetailsService {
                 .entityId(entityId)
                 .build();
 
-        System.out.println("DATA: " + dataForToken.toString());
+//        System.out.println("DATA: " + dataForToken.toString());
 
         return dataForToken;
     }
