@@ -32,7 +32,6 @@ public class TeacherService {
     }
 
     public ResponseEntity<PersonProjection> findTeacherById(Long teacherId) {
-        // вот тут мне нужно получить JWT текущего запроса. Взять у него значение поля "entityId"
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
