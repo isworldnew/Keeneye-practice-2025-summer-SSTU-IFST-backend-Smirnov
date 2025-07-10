@@ -9,11 +9,14 @@ import org.springframework.stereotype.Service;
 import ru.smirnov.keeneyepractice.backend.dto.authorization.DataForToken;
 import ru.smirnov.keeneyepractice.backend.mapper.StudentMapper;
 import ru.smirnov.keeneyepractice.backend.projection.PersonProjection;
+import ru.smirnov.keeneyepractice.backend.projection.StudentByGroupProjection;
 import ru.smirnov.keeneyepractice.backend.projection.StudentInTeachersGroupProjection;
 import ru.smirnov.keeneyepractice.backend.repository.GroupRepository;
 import ru.smirnov.keeneyepractice.backend.repository.StudentRepository;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class StudentService {
@@ -72,6 +75,49 @@ public class StudentService {
         // если предыдущие проверки прошли или пользователь оказался ADMIN-ом:
         return this.responseEntityWithPersonProjection(student);
 
+    }
+
+    public ResponseEntity<List<PersonProjection>> findAllStudents() {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+
+//        if (authentication != null && authentication.getPrincipal() instanceof DataForToken)
+//            tokenData = (DataForToken) authentication.getPrincipal();
+
+
+        final DataForToken tokenData = (DataForToken) authentication.getPrincipal();
+
+        // да-да - супер неоптимальное решение. Надо было бы вообще разделить это на разные эндпоинты
+        // и написать ещё и запросы красивые, но для учебного задания для разграничения ролей - пойдёт
+        List<StudentByGroupProjection> students = this.studentRepository.findStudents();
+
+        // "может просматривать информацию о всех одногруппниках"
+        if (tokenData.getRole().equals("ROLE_STUDENT")) {
+
+            Long groupId = students.stream()
+                    .filter(student -> student.getId().equals(tokenData.getEntityId()))
+                    .findFirst().orElse(null).getGroupId();
+
+            List<PersonProjection> studentsFromTheSameGroup = students.stream()
+                    .filter(student -> student.getGroupId().equals(groupId))
+                    .collect(Collectors.toList());
+
+            return ResponseEntity.ok(studentsFromTheSameGroup);
+        }
+
+        // "может просматривать информацию о всех студентах из групп, назначенных на него"
+        if (tokenData.getRole().equals("ROLE_TEACHER")) {
+
+            return ResponseEntity.ok(
+                    students.stream()
+                            .filter(student -> student.getTeacherId().equals(tokenData.getEntityId()))
+                            .collect(Collectors.toList())
+            );
+
+        }
+
+        return ResponseEntity.ok(students.stream().collect(Collectors.toList()));
     }
 
     private ResponseEntity<PersonProjection> responseEntityWithPersonProjection(PersonProjection student) {

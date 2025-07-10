@@ -14,6 +14,7 @@ import ru.smirnov.keeneyepractice.backend.projection.PersonProjection;
 import ru.smirnov.keeneyepractice.backend.service.StudentService;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -31,6 +32,12 @@ public class StudentController {
     @PreAuthorize("hasAnyRole('ADMIN', 'STUDENT', 'TEACHER')")
     public ResponseEntity<PersonProjection> findStudentById(@NotNull @Positive @PathVariable Long id) {
         return this.studentService.findStudentById(id);
+    }
+
+    @GetMapping("/students")
+    @PreAuthorize("hasAnyRole('ADMIN', 'STUDENT', 'TEACHER')")
+    public ResponseEntity<List<PersonProjection>> findAllStudents() {
+        return this.studentService.findAllStudents();
     }
 
     @ExceptionHandler({MethodArgumentNotValidException.class})
