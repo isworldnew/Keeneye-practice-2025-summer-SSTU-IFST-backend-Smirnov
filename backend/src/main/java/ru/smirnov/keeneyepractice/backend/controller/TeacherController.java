@@ -51,4 +51,5 @@ public class TeacherController {
     public ResponseEntity<String> handleConstraintViolationException(ConstraintViolationException ex) {
         return ResponseEntity.badRequest().body("Validation failed: " + ex.getMessage());
     }
+
 }

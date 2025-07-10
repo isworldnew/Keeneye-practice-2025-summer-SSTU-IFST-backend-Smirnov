@@ -50,7 +50,7 @@ public class TeacherService {
         if (teacher == null)
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 
-        return ResponseEntity.status(HttpStatus.FOUND).body(teacher);
+        return ResponseEntity.status(HttpStatus.OK).body(teacher);
     }
 
 }
