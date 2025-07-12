@@ -43,7 +43,7 @@ public class UserService implements UserDetailsService {
         );
 
         List<SimpleGrantedAuthority> authorities = Collections.singletonList(
-                new SimpleGrantedAuthority(user.getRole().name())
+                new SimpleGrantedAuthority("ROLE_" + user.getRole().name()) // ВОТ ТУТ ИЗМЕНИЛ: добавил "ROLE_" +
         );
 
         Long entityId = null; // базово считаем, что она null, будто это ADMIN

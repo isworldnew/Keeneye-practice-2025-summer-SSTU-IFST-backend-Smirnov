@@ -43,6 +43,9 @@ public class TeacherService {
         if (auth != null && auth.getPrincipal() instanceof DataForToken)
             tokenData = (DataForToken) auth.getPrincipal();
 
+        if (tokenData.getRole().equals("ROLE_STUDENT"))
+            return ResponseEntity.status(HttpStatus.I_AM_A_TEAPOT).build();
+
         // если не ADMIN и id не совпали - нельзя обращаться
         if (!tokenData.getRole().equals("ROLE_ADMIN") && !tokenData.getEntityId().equals(teacherId))
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
