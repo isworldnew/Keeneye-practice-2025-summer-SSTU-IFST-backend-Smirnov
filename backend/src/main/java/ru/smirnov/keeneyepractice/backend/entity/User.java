@@ -13,7 +13,11 @@ import ru.smirnov.keeneyepractice.backend.entity.auxiliary.Role;
 @NoArgsConstructor
 public class User {
 
-    static BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    private static BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+    public static String encodeRawPassword(String rawPassword) {
+        return passwordEncoder.encode(rawPassword);
+    }
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -40,8 +44,8 @@ public class User {
     private Teacher teacher;
 
 
-    public User(String password) {
-        this.password = passwordEncoder.encode(password);
-    }
+//    public User(String password) {
+//        this.password = passwordEncoder.encode(password);
+//    }
 
 }

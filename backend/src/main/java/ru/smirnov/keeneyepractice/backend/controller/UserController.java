@@ -1,15 +1,16 @@
 package ru.smirnov.keeneyepractice.backend.controller;
 
 import jakarta.validation.ConstraintViolationException;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import ru.smirnov.keeneyepractice.backend.dto.user.CreatedUserDataDto;
+import ru.smirnov.keeneyepractice.backend.dto.user.UserToCreateDto;
 import ru.smirnov.keeneyepractice.backend.service.UserService;
 
 import java.util.HashMap;
@@ -25,6 +26,19 @@ public class UserController {
     public UserController(UserService userService) {
         this.userService = userService;
     }
+
+    // создать user-а с записью в бизнесовой таблице
+    @PostMapping("/register-user-with-business-data")
+    @PreAuthorize("hasAnyRole('ADMIN')")
+    public ResponseEntity<CreatedUserDataDto> createUserWithBusinessData(@Valid @RequestBody UserToCreateDto dto) {
+        return this.userService.createUserWithBusinessData(dto);
+    }
+
+    // получить всех user-ов с их записями в бизнесовых таблицах
+    // получить user-а и запись в бизнесовой таблице
+
+    // обновить по id user-а
+    // обновить по id сущности, но с обязательным указанием роли
 
     @ExceptionHandler({MethodArgumentNotValidException.class})
     public ResponseEntity<?> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
