@@ -1,6 +1,7 @@
 package ru.smirnov.keeneyepractice.backend.service;
 
 import jakarta.transaction.Transactional;
+import org.apache.commons.lang3.NotImplementedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,9 @@ import ru.smirnov.keeneyepractice.backend.entity.Teacher;
 import ru.smirnov.keeneyepractice.backend.entity.User;
 import ru.smirnov.keeneyepractice.backend.entity.auxiliary.Person;
 import ru.smirnov.keeneyepractice.backend.entity.auxiliary.Role;
+import ru.smirnov.keeneyepractice.backend.entity.auxiliary.RoleManager;
+import ru.smirnov.keeneyepractice.backend.exceptions.NoSuchRoleException;
+import ru.smirnov.keeneyepractice.backend.exceptions.ServiceMethodNotImplementedException;
 import ru.smirnov.keeneyepractice.backend.mapper.UserMapper;
 import ru.smirnov.keeneyepractice.backend.repository.StudentRepository;
 import ru.smirnov.keeneyepractice.backend.repository.TeacherRepository;
@@ -35,6 +39,9 @@ public class UserService implements UserDetailsService {
     private final TeacherRepository teacherRepository;
     private final UserMapper userMapper;
 
+
+    private final RoleManager roleManager;
+
     @Autowired
     public UserService(
             UserRepository userRepository,
@@ -42,7 +49,9 @@ public class UserService implements UserDetailsService {
             StudentService studentService,
             UserMapper userMapper,
             StudentRepository studentRepository,
-            TeacherRepository teacherRepository
+            TeacherRepository teacherRepository,
+
+            RoleManager roleManager
     ) {
         this.userRepository = userRepository;
         this.teacherService = teacherService;
@@ -50,6 +59,8 @@ public class UserService implements UserDetailsService {
         this.userMapper = userMapper;
         this.studentRepository = studentRepository;
         this.teacherRepository = teacherRepository;
+
+        this.roleManager = roleManager;
     }
 
     @Override
@@ -91,7 +102,8 @@ public class UserService implements UserDetailsService {
     // методы для обычных эндпоинтов:
 
     @Transactional
-    public ResponseEntity<CreatedUserDataDto> createUserWithBusinessData(UserToCreateDto dto) {
+    @Deprecated
+    public ResponseEntity<CreatedUserDataDto> createUserWithBusinessDataDeprecated(UserToCreateDto dto) {
 
         // обязательно проверить, что username - уникальный
         List<User> existingUsers = this.userRepository.findAll();
@@ -138,6 +150,73 @@ public class UserService implements UserDetailsService {
                 new CreatedUserDataDto(createdPersonId, userToCreate.getId())
         );
 
+    }
+
+
+    @Transactional
+    public ResponseEntity<CreatedUserDataDto> createUserWithBusinessData(UserToCreateDto dto) {
+        List<User> existingUsers = this.userRepository.findAll();
+
+        boolean usernameAlreadyExists = existingUsers.stream()
+                .map(user -> user.getUsername())
+                .anyMatch(username -> username.equals(dto.getUsername()));
+
+        if (usernameAlreadyExists)
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+
+        User createdUser = this.userRepository.save(this.initializeUser(dto));
+
+
+        Student student = new Student();
+        student.setLastname(dto.getLastname());
+        student.setFirstname(dto.getFirstname());
+        student.setParentname(dto.getParentname());
+        student.setBirthDate(dto.getBirthDate());
+        student.setPhoneNumber(dto.getPhoneNumber());
+        student.setEmail(dto.getEmail());
+
+        Teacher teacher = new Teacher();
+        teacher.setLastname(dto.getLastname());
+        teacher.setFirstname(dto.getFirstname());
+        teacher.setParentname(dto.getParentname());
+        teacher.setBirthDate(dto.getBirthDate());
+        teacher.setPhoneNumber(dto.getPhoneNumber());
+        teacher.setEmail(dto.getEmail());
+
+        Person person = null;
+
+        if (dto.getRole().equals("STUDENT"))
+            person = student;
+
+        if (dto.getRole().equals("TEACHER"))
+            person = teacher;
+
+
+//        try {
+            Long createdEntityId = this.roleManager.valueOf(dto.getRole()).save(
+                    person /*сюда бы абстрактную фабрику или фабричный метод*/
+            );
+            return ResponseEntity.status(HttpStatus.CREATED).body(
+                    new CreatedUserDataDto(createdEntityId, createdUser.getId())
+            );
+//        }
+//        catch (NoSuchRoleException nsre) {
+//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+//        }
+//        catch (ServiceMethodNotImplementedException smnie) {
+//            return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).build();
+//        }
+
+
+    }
+
+    private User initializeUser(UserToCreateDto dto) {
+        User userToCreate = new User();
+        userToCreate.setUsername(dto.getUsername());
+        userToCreate.setPassword(User.encodeRawPassword(dto.getRawPassword()));
+        userToCreate.setRole(Role.valueOf(dto.getRole()));
+        userToCreate.setEnabled(dto.getEnabled());
+        return userToCreate;
     }
 
     private void createPerson(Person personToCreate, UserToCreateDto dto, User createdUser) {

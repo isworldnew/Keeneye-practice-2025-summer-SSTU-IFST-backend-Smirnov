@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class TeacherService {
+public class TeacherService implements RoledEntityService {
 
     private final TeacherRepository teacherRepository;
 
