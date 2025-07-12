@@ -19,6 +19,7 @@ import ru.smirnov.keeneyepractice.backend.entity.User;
 import ru.smirnov.keeneyepractice.backend.entity.auxiliary.Person;
 import ru.smirnov.keeneyepractice.backend.entity.auxiliary.Role;
 import ru.smirnov.keeneyepractice.backend.entity.auxiliary.RoleManager;
+import ru.smirnov.keeneyepractice.backend.entity.auxiliary.SimplePersonFabric;
 import ru.smirnov.keeneyepractice.backend.exceptions.NoSuchRoleException;
 import ru.smirnov.keeneyepractice.backend.exceptions.ServiceMethodNotImplementedException;
 import ru.smirnov.keeneyepractice.backend.mapper.UserMapper;
@@ -41,6 +42,7 @@ public class UserService implements UserDetailsService {
 
 
     private final RoleManager roleManager;
+    private final SimplePersonFabric simplePersonFabric;
 
     @Autowired
     public UserService(
@@ -51,7 +53,8 @@ public class UserService implements UserDetailsService {
             StudentRepository studentRepository,
             TeacherRepository teacherRepository,
 
-            RoleManager roleManager
+            RoleManager roleManager,
+            SimplePersonFabric simplePersonFabric
     ) {
         this.userRepository = userRepository;
         this.teacherService = teacherService;
@@ -61,6 +64,7 @@ public class UserService implements UserDetailsService {
         this.teacherRepository = teacherRepository;
 
         this.roleManager = roleManager;
+        this.simplePersonFabric = simplePersonFabric;
     }
 
     @Override
@@ -167,6 +171,7 @@ public class UserService implements UserDetailsService {
         User createdUser = this.userRepository.save(this.initializeUser(dto));
 
 
+        /*
         Student student = new Student();
         student.setLastname(dto.getLastname());
         student.setFirstname(dto.getFirstname());
@@ -192,11 +197,13 @@ public class UserService implements UserDetailsService {
 
         if (dto.getRole().equals("TEACHER"))
             person = teacher;
+        */
 
 
 //        try {
             Long createdEntityId = this.roleManager.valueOf(dto.getRole()).save(
-                    person /*сюда бы абстрактную фабрику или фабричный метод*/
+                    /*person*/ /*сюда бы абстрактную фабрику или фабричный метод*/
+                    SimplePersonFabric.generatePerson(dto, createdUser)
             );
             return ResponseEntity.status(HttpStatus.CREATED).body(
                     new CreatedUserDataDto(createdEntityId, createdUser.getId())
