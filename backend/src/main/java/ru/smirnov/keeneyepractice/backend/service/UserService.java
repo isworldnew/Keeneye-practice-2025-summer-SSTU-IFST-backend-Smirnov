@@ -174,6 +174,7 @@ public class UserService implements UserDetailsService {
         student.setBirthDate(dto.getBirthDate());
         student.setPhoneNumber(dto.getPhoneNumber());
         student.setEmail(dto.getEmail());
+        student.setUser(createdUser);
 
         Teacher teacher = new Teacher();
         teacher.setLastname(dto.getLastname());
@@ -182,6 +183,7 @@ public class UserService implements UserDetailsService {
         teacher.setBirthDate(dto.getBirthDate());
         teacher.setPhoneNumber(dto.getPhoneNumber());
         teacher.setEmail(dto.getEmail());
+        teacher.setUser(createdUser);
 
         Person person = null;
 
