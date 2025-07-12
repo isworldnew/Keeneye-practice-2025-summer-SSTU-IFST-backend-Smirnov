@@ -10,6 +10,7 @@ import ru.smirnov.keeneyepractice.backend.dto.authentication.DataForToken;
 import ru.smirnov.keeneyepractice.backend.dto.basic.IncomingPersonDto;
 import ru.smirnov.keeneyepractice.backend.dto.basic.OutcomingPersonDto;
 import ru.smirnov.keeneyepractice.backend.entity.Student;
+import ru.smirnov.keeneyepractice.backend.entity.auxiliary.Person;
 import ru.smirnov.keeneyepractice.backend.mapper.StudentMapper;
 import ru.smirnov.keeneyepractice.backend.projection.PersonProjection;
 import ru.smirnov.keeneyepractice.backend.projection.StudentByGroupProjection;
@@ -170,6 +171,11 @@ public class StudentService implements RoledEntityService {
         /* в силу того, что это просто boilerplate-код, пока не реализовал:
         данный метод в принципе не предполагает разграничение доступа по ролям*/
         return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).build();
+    }
+
+    @Override
+    public Long save(Person personToSave) {
+        return this.studentRepository.save((Student) personToSave).getId();
     }
 
 }

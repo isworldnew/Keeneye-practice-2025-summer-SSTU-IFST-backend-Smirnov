@@ -8,8 +8,7 @@ public interface RoledEntityService {
 
     default Long save(Person personToSave) throws ServiceMethodNotImplementedException {
         throw new ServiceMethodNotImplementedException(
-                "Basically this method is not implemented",
-                new NotImplementedException()
+                "Basically this method is not implemented"
         );
     }
 

@@ -1,11 +1,9 @@
-package ru.smirnov.keeneyepractice.backend;
+package ru.smirnov.keeneyepractice.backend.exceptions;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ControllerAdvice;
-import ru.smirnov.keeneyepractice.backend.exceptions.NoSuchRoleException;
-import ru.smirnov.keeneyepractice.backend.exceptions.ServiceMethodNotImplementedException;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {

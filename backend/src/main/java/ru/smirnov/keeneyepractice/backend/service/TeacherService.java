@@ -9,6 +9,9 @@ import org.springframework.stereotype.Service;
 import ru.smirnov.keeneyepractice.backend.dto.authentication.DataForToken;
 import ru.smirnov.keeneyepractice.backend.dto.basic.IncomingPersonDto;
 import ru.smirnov.keeneyepractice.backend.dto.basic.OutcomingPersonDto;
+import ru.smirnov.keeneyepractice.backend.entity.Student;
+import ru.smirnov.keeneyepractice.backend.entity.Teacher;
+import ru.smirnov.keeneyepractice.backend.entity.auxiliary.Person;
 import ru.smirnov.keeneyepractice.backend.mapper.TeacherMapper;
 import ru.smirnov.keeneyepractice.backend.projection.PersonProjection;
 import ru.smirnov.keeneyepractice.backend.repository.TeacherRepository;
@@ -74,6 +77,12 @@ public class TeacherService implements RoledEntityService {
         /* в силу того, что это просто boilerplate-код, пока не реализовал:
         данный метод в принципе не предполагает разграничение доступа по ролям*/
         return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).build();
+    }
+
+
+    @Override
+    public Long save(Person personToSave) {
+        return this.teacherRepository.save((Teacher) personToSave).getId();
     }
 
 }

@@ -214,7 +214,12 @@ public class UserService implements UserDetailsService {
         User userToCreate = new User();
         userToCreate.setUsername(dto.getUsername());
         userToCreate.setPassword(User.encodeRawPassword(dto.getRawPassword()));
-        userToCreate.setRole(Role.valueOf(dto.getRole()));
+        try {
+            userToCreate.setRole(Role.valueOf(dto.getRole()));
+        }
+        catch (IllegalArgumentException iae) {
+            throw new NoSuchRoleException("Invalid role name: " + dto.getRole());
+        }
         userToCreate.setEnabled(dto.getEnabled());
         return userToCreate;
     }
