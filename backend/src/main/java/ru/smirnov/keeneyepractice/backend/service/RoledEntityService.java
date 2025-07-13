@@ -1,6 +1,7 @@
 package ru.smirnov.keeneyepractice.backend.service;
 
 import org.apache.commons.lang3.NotImplementedException;
+import ru.smirnov.keeneyepractice.backend.dto.user.UserByPersonForUpdateDto;
 import ru.smirnov.keeneyepractice.backend.entity.auxiliary.Person;
 import ru.smirnov.keeneyepractice.backend.exceptions.ServiceMethodNotImplementedException;
 import ru.smirnov.keeneyepractice.backend.projection.UserByPersonProjection;
@@ -27,6 +28,12 @@ public interface RoledEntityService {
     }
 
     default Optional<UserByPersonProjection> findById(Long id) {
+        throw new ServiceMethodNotImplementedException(
+                "Basically this method is not implemented"
+        );
+    }
+
+    default Person updateById(UserByPersonForUpdateDto dataForUpdate, Long id) {
         throw new ServiceMethodNotImplementedException(
                 "Basically this method is not implemented"
         );

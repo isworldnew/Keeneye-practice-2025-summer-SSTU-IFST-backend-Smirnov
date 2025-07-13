@@ -14,6 +14,8 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 import ru.smirnov.keeneyepractice.backend.dto.user.CreatedUserDataDto;
+import ru.smirnov.keeneyepractice.backend.dto.user.UpdatedUserByPersonDto;
+import ru.smirnov.keeneyepractice.backend.dto.user.UserByPersonForUpdateDto;
 import ru.smirnov.keeneyepractice.backend.dto.user.UserToCreateDto;
 import ru.smirnov.keeneyepractice.backend.projection.UserByPersonProjection;
 import ru.smirnov.keeneyepractice.backend.service.UserService;
@@ -49,6 +51,7 @@ public class UserController {
         return this.userService.findAllUsersAndEntitiesByRole(role);
     }
 
+    // получить user-а и запись в бизнесовой таблице
     @GetMapping("/find-user-and-entity-by-role-and-entity-id/{role}/{entityId}")
     @PreAuthorize("hasAnyRole('ADMIN')")
     public ResponseEntity<UserByPersonProjection> findUserAndEntityByRoleAndEntityId(
@@ -58,10 +61,17 @@ public class UserController {
         return this.userService.findUserAndEntityByRoleAndEntityId(role, entityId);
     }
 
-    // получить user-а и запись в бизнесовой таблице
 
-    // обновить по id user-а
     // обновить по id сущности, но с обязательным указанием роли
+    @PostMapping("/update-user-with-business-data/{role}/{entityId}")
+    @PreAuthorize("hasAnyRole('ADMIN')")
+    public ResponseEntity<UpdatedUserByPersonDto> updateUserWithBusinessData(
+            @Valid @RequestBody UserByPersonForUpdateDto dto,
+            @NotNull @NotBlank @NotEmpty @PathVariable String role,
+            @NotNull @Positive @PathVariable Long entityId
+    ) {
+        return this.userService.updateUserWithBusinessData(dto, role, entityId);
+    }
 
     @ExceptionHandler({MethodArgumentNotValidException.class})
     public ResponseEntity<?> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {

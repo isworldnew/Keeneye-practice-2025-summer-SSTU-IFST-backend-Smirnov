@@ -4,7 +4,7 @@ import java.time.LocalDate;
 
 public interface UserByPersonProjection {
 
-    Long getId();
+    Long getId(); // параметр
     Long getUserId();
     String getLastname();
     String getFirstname();
@@ -14,7 +14,7 @@ public interface UserByPersonProjection {
     String getEmail();
 
     String getUsername();
-    String getRole();
+    String getRole(); // параметр
     Boolean getEnabled();
 
 }

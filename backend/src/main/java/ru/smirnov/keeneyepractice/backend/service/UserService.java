@@ -12,6 +12,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import ru.smirnov.keeneyepractice.backend.dto.authentication.DataForToken;
 import ru.smirnov.keeneyepractice.backend.dto.user.CreatedUserDataDto;
+import ru.smirnov.keeneyepractice.backend.dto.user.UpdatedUserByPersonDto;
+import ru.smirnov.keeneyepractice.backend.dto.user.UserByPersonForUpdateDto;
 import ru.smirnov.keeneyepractice.backend.dto.user.UserToCreateDto;
 import ru.smirnov.keeneyepractice.backend.entity.Student;
 import ru.smirnov.keeneyepractice.backend.entity.Teacher;
@@ -225,13 +227,46 @@ public class UserService implements UserDetailsService {
     }
 
 
-//    public ResponseEntity</**/> updateUserWithBusinessData(/**/) {
-//        // может... запретить обновлять роль?
-//        // просто, в таком случае у мне придётся удалять запись в одной из таблиц сущностей, и переносить её в другую
-//        // а если удалять, то там поплывут таблицы, где id преподавателя или студента - внешние ключи
-//        // либо ходить ещё в каждую таблицу, обновляя данные уже там (пихая вместо старого id - новый из таблицы сущностей)
-//
-//    }
+    @Transactional
+    public ResponseEntity<UpdatedUserByPersonDto> updateUserWithBusinessData(
+            UserByPersonForUpdateDto dto,
+            String role, Long entityId
+    ) {
+         /*
+         может... запретить обновлять роль?
+         просто, в таком случае у мне придётся удалять запись в одной из таблиц сущностей, и переносить её в другую
+         а если удалять, то там поплывут таблицы, где id преподавателя или студента - внешние ключи
+         либо ходить ещё в каждую таблицу, обновляя данные уже там (пихая вместо старого id - новый из таблицы сущностей)
+         */
+
+        User user = this.userRepository.findByUsername(dto.getOldUsername()).orElse(null);
+
+        if (user == null || !user.getPassword().equals(User.encodeRawPassword(dto.getRawOldPassword())))
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+
+        updateUser(user, dto);
+
+        this.userRepository.save(user);
+
+        Person person = this.roleManager.valueOf(role).updateById(dto, entityId);
+
+        return ResponseEntity.ok(
+                new UpdatedUserByPersonDto(
+                        person.getId(),
+                        user.getId(),
+                        person.getLastname(),
+                        person.getFirstname(),
+                        person.getParentname(),
+                        person.getBirthDate(),
+                        person.getPhoneNumber(),
+                        person.getEmail(),
+                        user.getUsername(),
+                        user.getRole().toString(),
+                        user.isEnabled()
+                )
+        );
+
+    }
 
     public ResponseEntity<List<UserByPersonProjection>> findAllUsersAndEntitiesByRole(String role) {
 
@@ -265,6 +300,12 @@ public class UserService implements UserDetailsService {
         }
         userToCreate.setEnabled(dto.getEnabled());
         return userToCreate;
+    }
+
+    private void updateUser(User userToUpdate, UserByPersonForUpdateDto dto) {
+        userToUpdate.setUsername(dto.getNewUsername());
+        userToUpdate.setPassword(User.encodeRawPassword(dto.getRawNewPassword()));
+        userToUpdate.setEnabled(dto.getEnabled());
     }
 
     /*

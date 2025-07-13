@@ -17,4 +17,9 @@ public class GlobalExceptionHandler {
     public ResponseEntity<String> handleServiceMethodNotImplementedException(ServiceMethodNotImplementedException ex) {
         return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(ex.getMessage());
     }
+
+    @ExceptionHandler(EntityNotFoundException.class)
+    public ResponseEntity<String> handleEntityNotFoundException(EntityNotFoundException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+    }
 }

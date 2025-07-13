@@ -2,6 +2,7 @@ package ru.smirnov.keeneyepractice.backend.entity.auxiliary;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import ru.smirnov.keeneyepractice.backend.dto.user.UserByPersonForUpdateDto;
 import ru.smirnov.keeneyepractice.backend.exceptions.NoSuchRoleException;
 import ru.smirnov.keeneyepractice.backend.exceptions.ServiceMethodNotImplementedException;
 import ru.smirnov.keeneyepractice.backend.projection.UserByPersonProjection;
@@ -68,6 +69,11 @@ public class RoleManager {
         @Override
         public Optional<UserByPersonProjection> findById(Long id) {
             return this.service.findById(id);
+        }
+
+        @Override
+        public Person updateById(UserByPersonForUpdateDto dataForUpdate, Long id) {
+            return this.service.updateById(dataForUpdate, id);
         }
     }
 

@@ -9,9 +9,11 @@ import org.springframework.stereotype.Service;
 import ru.smirnov.keeneyepractice.backend.dto.authentication.DataForToken;
 import ru.smirnov.keeneyepractice.backend.dto.basic.IncomingPersonDto;
 import ru.smirnov.keeneyepractice.backend.dto.basic.OutcomingPersonDto;
+import ru.smirnov.keeneyepractice.backend.dto.user.UserByPersonForUpdateDto;
 import ru.smirnov.keeneyepractice.backend.entity.Student;
 import ru.smirnov.keeneyepractice.backend.entity.Teacher;
 import ru.smirnov.keeneyepractice.backend.entity.auxiliary.Person;
+import ru.smirnov.keeneyepractice.backend.exceptions.EntityNotFoundException;
 import ru.smirnov.keeneyepractice.backend.mapper.TeacherMapper;
 import ru.smirnov.keeneyepractice.backend.projection.PersonProjection;
 import ru.smirnov.keeneyepractice.backend.projection.UserByPersonProjection;
@@ -94,5 +96,21 @@ public class TeacherService implements RoledEntityService {
     @Override
     public Optional<UserByPersonProjection> findById(Long id) {
         return this.teacherRepository.findTeacherWithUserDataByTeacherId(id);
+    }
+
+    @Override
+    public Person updateById(UserByPersonForUpdateDto dataForUpdate, Long id) throws EntityNotFoundException {
+        Teacher teacher = this.teacherRepository.findById(id).orElse(null);
+
+        if (teacher == null) throw new EntityNotFoundException("No such entity by this id");
+
+        teacher.setLastname(dataForUpdate.getLastname());
+        teacher.setFirstname(dataForUpdate.getFirstname());
+        teacher.setParentname(dataForUpdate.getParentname());
+        teacher.setBirthDate(dataForUpdate.getBirthDate());
+        teacher.setPhoneNumber(dataForUpdate.getPhoneNumber());
+        teacher.setEmail(dataForUpdate.getEmail());
+
+        return teacher;
     }
 }
