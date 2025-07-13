@@ -23,12 +23,14 @@ import ru.smirnov.keeneyepractice.backend.entity.auxiliary.SimplePersonFabric;
 import ru.smirnov.keeneyepractice.backend.exceptions.NoSuchRoleException;
 import ru.smirnov.keeneyepractice.backend.exceptions.ServiceMethodNotImplementedException;
 import ru.smirnov.keeneyepractice.backend.mapper.UserMapper;
+import ru.smirnov.keeneyepractice.backend.projection.UserByPersonProjection;
 import ru.smirnov.keeneyepractice.backend.repository.StudentRepository;
 import ru.smirnov.keeneyepractice.backend.repository.TeacherRepository;
 import ru.smirnov.keeneyepractice.backend.repository.UserRepository;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -105,6 +107,7 @@ public class UserService implements UserDetailsService {
 
     // методы для обычных эндпоинтов:
 
+    /*
     @Transactional
     @Deprecated
     public ResponseEntity<CreatedUserDataDto> createUserWithBusinessDataDeprecated(UserToCreateDto dto) {
@@ -155,7 +158,7 @@ public class UserService implements UserDetailsService {
         );
 
     }
-
+    */
 
     @Transactional
     public ResponseEntity<CreatedUserDataDto> createUserWithBusinessData(UserToCreateDto dto) {
@@ -201,10 +204,12 @@ public class UserService implements UserDetailsService {
 
 
 //        try {
+        // .valueOf() и .save() могут выбрасывать Checked Exceptions, описанные в пакете exceptions и перехватываемые Handler-ом
             Long createdEntityId = this.roleManager.valueOf(dto.getRole()).save(
                     /*person*/ /*сюда бы абстрактную фабрику или фабричный метод*/
                     SimplePersonFabric.generatePerson(dto, createdUser)
             );
+            
             return ResponseEntity.status(HttpStatus.CREATED).body(
                     new CreatedUserDataDto(createdEntityId, createdUser.getId())
             );
@@ -218,6 +223,35 @@ public class UserService implements UserDetailsService {
 
 
     }
+
+
+//    public ResponseEntity</**/> updateUserWithBusinessData(/**/) {
+//        // может... запретить обновлять роль?
+//        // просто, в таком случае у мне придётся удалять запись в одной из таблиц сущностей, и переносить её в другую
+//        // а если удалять, то там поплывут таблицы, где id преподавателя или студента - внешние ключи
+//        // либо ходить ещё в каждую таблицу, обновляя данные уже там (пихая вместо старого id - новый из таблицы сущностей)
+//
+//    }
+
+    public ResponseEntity<List<UserByPersonProjection>> findAllUsersAndEntitiesByRole(String role) {
+
+        return ResponseEntity.ok(
+                this.roleManager.valueOf(role).findAll()
+        );
+
+    }
+
+    public ResponseEntity<UserByPersonProjection> findUserAndEntityByRoleAndEntityId(String role, Long entityId) {
+
+        UserByPersonProjection userToFind = this.roleManager.valueOf(role).findById(entityId).orElse(null);
+
+        if (userToFind == null)
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+
+        return ResponseEntity.ok(userToFind);
+
+    }
+
 
     private User initializeUser(UserToCreateDto dto) {
         User userToCreate = new User();
@@ -233,6 +267,7 @@ public class UserService implements UserDetailsService {
         return userToCreate;
     }
 
+    /*
     private void createPerson(Person personToCreate, UserToCreateDto dto, User createdUser) {
         personToCreate.setFirstname(dto.getFirstname());
         personToCreate.setLastname(dto.getLastname());
@@ -242,5 +277,6 @@ public class UserService implements UserDetailsService {
         personToCreate.setEmail(dto.getEmail());
         personToCreate.setUser(createdUser);
     }
+    */
 
 }

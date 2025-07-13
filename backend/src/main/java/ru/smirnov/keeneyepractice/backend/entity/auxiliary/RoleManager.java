@@ -4,13 +4,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ru.smirnov.keeneyepractice.backend.exceptions.NoSuchRoleException;
 import ru.smirnov.keeneyepractice.backend.exceptions.ServiceMethodNotImplementedException;
+import ru.smirnov.keeneyepractice.backend.projection.UserByPersonProjection;
 import ru.smirnov.keeneyepractice.backend.service.AdminService;
 import ru.smirnov.keeneyepractice.backend.service.RoledEntityService;
 import ru.smirnov.keeneyepractice.backend.service.StudentService;
 import ru.smirnov.keeneyepractice.backend.service.TeacherService;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Component
 public class RoleManager {
@@ -55,6 +58,16 @@ public class RoleManager {
         @Override
         public Long save(Person personToSave) throws ServiceMethodNotImplementedException {
             return this.service.save(personToSave);
+        }
+
+        @Override
+        public List<UserByPersonProjection> findAll() {
+            return this.service.findAll();
+        }
+
+        @Override
+        public Optional<UserByPersonProjection> findById(Long id) {
+            return this.service.findById(id);
         }
     }
 

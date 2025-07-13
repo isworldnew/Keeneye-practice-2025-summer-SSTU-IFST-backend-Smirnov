@@ -15,6 +15,7 @@ import ru.smirnov.keeneyepractice.backend.mapper.StudentMapper;
 import ru.smirnov.keeneyepractice.backend.projection.PersonProjection;
 import ru.smirnov.keeneyepractice.backend.projection.StudentByGroupProjection;
 import ru.smirnov.keeneyepractice.backend.projection.StudentInTeachersGroupProjection;
+import ru.smirnov.keeneyepractice.backend.projection.UserByPersonProjection;
 import ru.smirnov.keeneyepractice.backend.repository.GroupRepository;
 import ru.smirnov.keeneyepractice.backend.repository.StudentRepository;
 
@@ -178,4 +179,14 @@ public class StudentService implements RoledEntityService {
         return this.studentRepository.save((Student) personToSave).getId();
     }
 
+    @Override
+    public List<UserByPersonProjection> findAll() {
+        // return RoledEntityService.super.findAll();
+        return this.studentRepository.findStudentsWithUserData();
+    }
+
+    @Override
+    public Optional<UserByPersonProjection> findById(Long id) {
+        return this.studentRepository.findStudentWithUserDataByStudentId(id);
+    }
 }

@@ -14,6 +14,7 @@ import ru.smirnov.keeneyepractice.backend.entity.Teacher;
 import ru.smirnov.keeneyepractice.backend.entity.auxiliary.Person;
 import ru.smirnov.keeneyepractice.backend.mapper.TeacherMapper;
 import ru.smirnov.keeneyepractice.backend.projection.PersonProjection;
+import ru.smirnov.keeneyepractice.backend.projection.UserByPersonProjection;
 import ru.smirnov.keeneyepractice.backend.repository.TeacherRepository;
 
 import java.util.List;
@@ -85,4 +86,13 @@ public class TeacherService implements RoledEntityService {
         return this.teacherRepository.save((Teacher) personToSave).getId();
     }
 
+    @Override
+    public List<UserByPersonProjection> findAll() {
+        return this.teacherRepository.findTeachersWithUserData();
+    }
+
+    @Override
+    public Optional<UserByPersonProjection> findById(Long id) {
+        return this.teacherRepository.findTeacherWithUserDataByTeacherId(id);
+    }
 }

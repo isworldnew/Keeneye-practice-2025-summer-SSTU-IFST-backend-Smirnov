@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import ru.smirnov.keeneyepractice.backend.entity.Student;
 import ru.smirnov.keeneyepractice.backend.projection.PersonProjection;
 import ru.smirnov.keeneyepractice.backend.projection.StudentByGroupProjection;
+import ru.smirnov.keeneyepractice.backend.projection.UserByPersonProjection;
 
 import java.util.List;
 import java.util.Optional;
@@ -66,5 +67,54 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
             nativeQuery = true
     )
     List<StudentByGroupProjection> findStudents();
+
+
+
+    @Query(
+            value = """
+                    SELECT
+                    	students.id AS id,
+                    	students.user_id AS userId,
+                    	students.lastname AS lastname,
+                    	students.firstname AS firstname,
+                    	students.parentname AS parentname,
+                    	students.birth_date AS birthDate,
+                    	students.phone_number AS phoneNumber,
+                    	students.email AS email,	
+                    	users.username AS username,
+                    	users.role AS role,
+                    	users.enabled AS enabled
+                    FROM students
+                    JOIN users
+                    ON students.user_id = users.id
+                    ORDER BY students.id;
+                    """,
+            nativeQuery = true
+    )
+    List<UserByPersonProjection> findStudentsWithUserData();
+
+
+    @Query(
+            value = """
+                    SELECT
+                    	students.id AS id,
+                    	students.user_id AS userId,
+                    	students.lastname AS lastname,
+                    	students.firstname AS firstname,
+                    	students.parentname AS parentname,
+                    	students.birth_date AS birthDate,
+                    	students.phone_number AS phoneNumber,
+                    	students.email AS email,	
+                    	users.username AS username,
+                    	users.role AS role,
+                    	users.enabled AS enabled
+                    FROM students
+                    JOIN users
+                    ON students.user_id = users.id
+                    WHERE students.id = :studentId;
+                    """,
+            nativeQuery = true
+    )
+    Optional<UserByPersonProjection> findStudentWithUserDataByStudentId(@Param("studentId") Long studentId);
 
 }

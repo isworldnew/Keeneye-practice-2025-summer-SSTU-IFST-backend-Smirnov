@@ -87,3 +87,58 @@ INSERT INTO students_by_groups (id, student_id, group_id) VALUES
 (10, 10, 4), -- Группа "б2-зИФСТ-51"
 (11, 11, 4),
 (12, 12, 4);
+
+
+
+
+
+
+
+SELECT
+	students.id,
+	students.user_id,
+	students.lastname,
+	students.firstname,
+	students.parentname,
+	students.birth_date,
+	students.phone_number,
+	students.email,	
+	users.id,
+	users.username,
+	users.role,
+	users.password,
+	users.enabled
+FROM students
+JOIN users
+ON students.user_id = users.id
+ORDER BY students.id;
+
+
+SELECT
+	teachers.id,
+	teachers.user_id,
+	teachers.lastname,
+	teachers.firstname,
+	teachers.parentname,
+	teachers.birth_date,
+	teachers.phone_number,
+	teachers.email,	
+	users.id,
+	users.username,
+	users.role,
+	users.password,
+	users.enabled
+FROM teachers
+JOIN users
+ON teachers.user_id = users.id
+ORDER BY teachers.id;
+
+
+SELECT
+	id,
+	username,
+	role,
+	password,
+	enabled
+FROM users
+ORDER by users.id;
