@@ -35,14 +35,12 @@ public class UserController {
         this.userService = userService;
     }
 
-    // создать user-а с записью в бизнесовой таблице
     @PostMapping("/register-user-with-business-data")
     @PreAuthorize("hasAnyRole('ADMIN')")
     public ResponseEntity<CreatedUserDataDto> createUserWithBusinessData(@Valid @RequestBody UserToCreateDto dto) {
         return this.userService.createUserWithBusinessData(dto);
     }
 
-    // получить всех user-ов с их записями в бизнесовых таблицах
     @GetMapping("/find-all-users-and-entities-by-role/{role}")
     @PreAuthorize("hasAnyRole('ADMIN')")
     public ResponseEntity<List<UserByPersonProjection>> findAllUsersAndEntitiesByRole(
@@ -51,7 +49,6 @@ public class UserController {
         return this.userService.findAllUsersAndEntitiesByRole(role);
     }
 
-    // получить user-а и запись в бизнесовой таблице
     @GetMapping("/find-user-and-entity-by-role-and-entity-id/{role}/{entityId}")
     @PreAuthorize("hasAnyRole('ADMIN')")
     public ResponseEntity<UserByPersonProjection> findUserAndEntityByRoleAndEntityId(
@@ -61,8 +58,6 @@ public class UserController {
         return this.userService.findUserAndEntityByRoleAndEntityId(role, entityId);
     }
 
-
-    // обновить по id сущности, но с обязательным указанием роли
     @PostMapping("/update-user-with-business-data/{role}/{entityId}")
     @PreAuthorize("hasAnyRole('ADMIN')")
     public ResponseEntity<UpdatedUserByPersonDto> updateUserWithBusinessData(

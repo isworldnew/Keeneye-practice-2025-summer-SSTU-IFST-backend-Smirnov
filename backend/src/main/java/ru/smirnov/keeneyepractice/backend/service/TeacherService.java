@@ -64,23 +64,23 @@ public class TeacherService implements RoledEntityService {
         return ResponseEntity.status(HttpStatus.OK).body(teacher);
     }
 
-    public ResponseEntity<Long> createTeacher(IncomingPersonDto dto) {
-        /* в силу того, что это просто boilerplate-код, пока не реализовал:
-        данный метод в принципе не предполагает разграничение доступа по ролям*/
-        return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).build();
-    }
-
-    public ResponseEntity<List<OutcomingPersonDto>> findTeachers() {
-        /* в силу того, что это просто boilerplate-код, пока не реализовал:
-        данный метод в принципе не предполагает разграничение доступа по ролям*/
-        return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).build();
-    }
-
-    public ResponseEntity<OutcomingPersonDto> updateTeacherById(Long id, IncomingPersonDto dto) {
-        /* в силу того, что это просто boilerplate-код, пока не реализовал:
-        данный метод в принципе не предполагает разграничение доступа по ролям*/
-        return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).build();
-    }
+//    public ResponseEntity<Long> createTeacher(IncomingPersonDto dto) {
+//        /* в силу того, что это просто boilerplate-код, пока не реализовал:
+//        данный метод в принципе не предполагает разграничение доступа по ролям*/
+//        return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).build();
+//    }
+//
+//    public ResponseEntity<List<OutcomingPersonDto>> findTeachers() {
+//        /* в силу того, что это просто boilerplate-код, пока не реализовал:
+//        данный метод в принципе не предполагает разграничение доступа по ролям*/
+//        return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).build();
+//    }
+//
+//    public ResponseEntity<OutcomingPersonDto> updateTeacherById(Long id, IncomingPersonDto dto) {
+//        /* в силу того, что это просто boilerplate-код, пока не реализовал:
+//        данный метод в принципе не предполагает разграничение доступа по ролям*/
+//        return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).build();
+//    }
 
 
     @Override

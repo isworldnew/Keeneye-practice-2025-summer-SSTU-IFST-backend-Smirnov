@@ -52,11 +52,12 @@ public class StudentController {
         return this.studentService.updateStudentById(id, dto);
     }
 
-    @PostMapping("/create-student")
-    @PreAuthorize("hasAnyRole('ADMIN')")
-    public ResponseEntity<Long> createTeacher(@Valid @RequestBody IncomingPersonDto dto) {
-        return this.studentService.createStudent(dto);
-    }
+//    есть в UserController
+//    @PostMapping("/create-student")
+//    @PreAuthorize("hasAnyRole('ADMIN')")
+//    public ResponseEntity<Long> createTeacher(@Valid @RequestBody IncomingPersonDto dto) {
+//        return this.studentService.createStudent(dto);
+//    }
 
     @ExceptionHandler({MethodArgumentNotValidException.class})
     public ResponseEntity<?> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
