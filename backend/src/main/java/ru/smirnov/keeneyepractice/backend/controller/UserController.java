@@ -58,7 +58,7 @@ public class UserController {
         return this.userService.findUserAndEntityByRoleAndEntityId(role, entityId);
     }
 
-    @PostMapping("/update-user-with-business-data/{role}/{entityId}")
+    @PatchMapping("/update-user-with-business-data/{role}/{entityId}")
     @PreAuthorize("hasAnyRole('ADMIN')")
     public ResponseEntity<UpdatedUserByPersonDto> updateUserWithBusinessData(
             @Valid @RequestBody UserByPersonForUpdateDto dto,
