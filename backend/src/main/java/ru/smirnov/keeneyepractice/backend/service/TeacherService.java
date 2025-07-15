@@ -49,9 +49,6 @@ public class TeacherService implements RoledEntityService {
         if (auth != null && auth.getPrincipal() instanceof DataForToken)
             tokenData = (DataForToken) auth.getPrincipal();
 
-        if (tokenData.getRole().equals("ROLE_STUDENT"))
-            return ResponseEntity.status(HttpStatus.I_AM_A_TEAPOT).build();
-
         // если не ADMIN и id не совпали - нельзя обращаться
         if (!tokenData.getRole().equals("ROLE_ADMIN") && !tokenData.getEntityId().equals(teacherId))
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
@@ -63,24 +60,6 @@ public class TeacherService implements RoledEntityService {
 
         return ResponseEntity.status(HttpStatus.OK).body(teacher);
     }
-
-//    public ResponseEntity<Long> createTeacher(IncomingPersonDto dto) {
-//        /* в силу того, что это просто boilerplate-код, пока не реализовал:
-//        данный метод в принципе не предполагает разграничение доступа по ролям*/
-//        return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).build();
-//    }
-//
-//    public ResponseEntity<List<OutcomingPersonDto>> findTeachers() {
-//        /* в силу того, что это просто boilerplate-код, пока не реализовал:
-//        данный метод в принципе не предполагает разграничение доступа по ролям*/
-//        return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).build();
-//    }
-//
-//    public ResponseEntity<OutcomingPersonDto> updateTeacherById(Long id, IncomingPersonDto dto) {
-//        /* в силу того, что это просто boilerplate-код, пока не реализовал:
-//        данный метод в принципе не предполагает разграничение доступа по ролям*/
-//        return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).build();
-//    }
 
 
     @Override

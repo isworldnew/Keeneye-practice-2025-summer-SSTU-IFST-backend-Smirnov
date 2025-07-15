@@ -171,12 +171,6 @@ public class StudentService implements RoledEntityService {
 
     }
 
-//    public ResponseEntity<Long> createStudent(IncomingPersonDto dto) {
-//        /* в силу того, что это просто boilerplate-код, пока не реализовал:
-//        данный метод в принципе не предполагает разграничение доступа по ролям*/
-//        return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).build();
-//    }
-
     @Override
     public Long save(Person personToSave) {
         return this.studentRepository.save((Student) personToSave).getId();

@@ -37,30 +37,6 @@ public class TeacherController {
         return this.teacherService.findTeacherById(id);
     }
 
-//    есть в UserController
-//    @PostMapping("/create-teacher")
-//    @PreAuthorize("hasAnyRole('ADMIN')")
-//    public ResponseEntity<Long> createTeacher(@Valid @RequestBody IncomingPersonDto dto) {
-//        return this.teacherService.createTeacher(dto);
-//    }
-//
-//    есть в UserController
-//    @GetMapping("/teachers")
-//    @PreAuthorize("hasAnyRole('ADMIN')")
-//    public ResponseEntity<List<OutcomingPersonDto>> findTeachers() {
-//        return this.teacherService.findTeachers();
-//    }
-//
-//    есть в UserController
-//    @PatchMapping("/update-teacher-by-id/{id}")
-//    @PreAuthorize("hasAnyRole('ADMIN')")
-//    public ResponseEntity<OutcomingPersonDto> updateTeacherById(
-//            @NotNull @Positive @PathVariable Long id,
-//            @Valid @RequestBody IncomingPersonDto dto
-//    ) {
-//        return this.teacherService.updateTeacherById(id, dto);
-//    }
-
     @ExceptionHandler({MethodArgumentNotValidException.class})
     public ResponseEntity<?> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
         Map<String, String> errors = new HashMap<>();
