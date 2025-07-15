@@ -51,7 +51,7 @@ public class TeacherService implements RoledEntityService {
 
         // если не ADMIN и id не совпали - нельзя обращаться
         if (!tokenData.getRole().equals("ROLE_ADMIN") && !tokenData.getEntityId().equals(teacherId))
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 
         PersonProjection teacher = this.teacherRepository.findTeacherById(teacherId).orElse(null);
 

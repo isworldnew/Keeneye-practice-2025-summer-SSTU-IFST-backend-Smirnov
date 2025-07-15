@@ -67,7 +67,7 @@ public class StudentService implements RoledEntityService {
 
         // "может просматривать информацию о себе"
         if (tokenData.getRole().equals("ROLE_STUDENT") && !tokenData.getEntityId().equals(studentId))
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 
 
         // "может просматривать информацию о студенте, если студент из его группы"
@@ -78,7 +78,7 @@ public class StudentService implements RoledEntityService {
             ).orElse(null);
 
             if (relation == null)
-                return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
 
         // если предыдущие проверки прошли или пользователь оказался ADMIN-ом:
@@ -146,7 +146,7 @@ public class StudentService implements RoledEntityService {
 
         // "изменять информацию только о себе"
         if (tokenData.getRole().equals("ROLE_STUDENT") && !tokenData.getEntityId().equals(studentId))
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 
 
         // "редактировать каждого (любого) студента, относящегося к его группе"
@@ -156,7 +156,7 @@ public class StudentService implements RoledEntityService {
             ).orElse(null);
 
             if (projection == null)
-                return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
 
         Student student = studentRepository.findById(studentId).orElse(null);
